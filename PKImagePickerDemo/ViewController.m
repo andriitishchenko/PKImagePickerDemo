@@ -7,9 +7,12 @@
 //
 
 #import "ViewController.h"
+#import <CoreImage/CoreImage.h>
+
 #import "PKImagePickerViewController.h"
 
-@interface ViewController ()<PKImagePickerViewControllerDelegate>
+
+@interface ViewController ()<PKImagePickerViewControllerDelegate,PKImagePickerCusomizeDelegate>
 @property (nonatomic,strong) PKImagePickerViewController *imagePicker;
 @property (nonatomic,strong) UIImageView*imageView;
 @end
@@ -37,6 +40,7 @@
     
     self.imagePicker = [[PKImagePickerViewController alloc]init];
     self.imagePicker.delegate = self;
+    self.imagePicker.customizeDelegate = self;
 	// Do any additional setup after loading the view, typically from a nib.
     
     
@@ -137,4 +141,29 @@
 
         return overlayLayer;
 }
+
+
+
+-(UIButton*) ImagePickerCusomizeCameraButton{
+    UIButton*camerabutton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.bounds)/2-50, CGRectGetHeight(self.view.bounds)-100, 100, 100)];
+    
+    UIImage*img = [UIImage imageNamed:@"PKImageBundle.bundle/take-snap"];
+    
+    CIImage *_inputImage = [CIImage imageWithCGImage:[img CGImage]];
+    
+    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectMono"];
+    [filter setValue:_inputImage forKey:kCIInputImageKey];
+    
+    CGImageRef cgImage = [[CIContext contextWithOptions:nil] createCGImage:filter.outputImage fromRect:filter.outputImage.extent];
+    UIImage *image = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    
+    [camerabutton setImage:image forState:UIControlStateNormal];
+    [camerabutton setTintColor:[UIColor blueColor]];
+    [camerabutton.layer setCornerRadius:20.0];
+
+    return camerabutton;
+}
+
+
 @end

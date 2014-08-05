@@ -96,35 +96,86 @@
         [self.delegate ImagePickerOverlayForCameraWithRect:self.view.bounds];
         
     }
-
+        
+        UIButton *camerabutton=nil;
+        if (self.customizeDelegate) {
+            if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeCameraButton)]) {
+                camerabutton = [self.customizeDelegate ImagePickerCusomizeCameraButton];
+            }
+        }
+        if (!camerabutton) {
+            camerabutton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.bounds)/2-50, CGRectGetHeight(self.view.bounds)-100, 100, 100)];
+            [camerabutton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/take-snap"] forState:UIControlStateNormal];
+            [camerabutton setTintColor:[UIColor blueColor]];
+            [camerabutton.layer setCornerRadius:20.0];
+        }
+        [camerabutton addTarget:self action:@selector(capturePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:camerabutton];
     
-    UIButton *camerabutton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.bounds)/2-50, CGRectGetHeight(self.view.bounds)-100, 100, 100)];
-    [camerabutton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/take-snap"] forState:UIControlStateNormal];
-    [camerabutton addTarget:self action:@selector(capturePhoto:) forControlEvents:UIControlEventTouchUpInside];
-    [camerabutton setTintColor:[UIColor blueColor]];
-    [camerabutton.layer setCornerRadius:20.0];
-    [self.view addSubview:camerabutton];
+        
+        
+        
+        UIButton *flashbutton = nil;
+        if (self.customizeDelegate) {
+            if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeFlashButton)]) {
+                flashbutton = [self.customizeDelegate ImagePickerCusomizeFlashButton];
+            }
+        }
+        if (!flashbutton) {
+            flashbutton =[[UIButton alloc]initWithFrame:CGRectMake(5, 5, 30, 31)];
+            [flashbutton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/flash"] forState:UIControlStateNormal];
+            [flashbutton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/flashselected"] forState:UIControlStateSelected];
+        }
+        [flashbutton addTarget:self action:@selector(flash:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:flashbutton];
+        
+        
     
-    UIButton *flashbutton = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 30, 31)];
-    [flashbutton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/flash"] forState:UIControlStateNormal];
-    [flashbutton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/flashselected"] forState:UIControlStateSelected];
-    [flashbutton addTarget:self action:@selector(flash:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:flashbutton];
-    
-    UIButton *frontcamera = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)-50, 5, 47, 25)];
-    [frontcamera setImage:[UIImage imageNamed:@"PKImageBundle.bundle/front-camera"] forState:UIControlStateNormal];
-    [frontcamera addTarget:self action:@selector(showFrontCamera:) forControlEvents:UIControlEventTouchUpInside];
-    [frontcamera setBackgroundColor:[UIColor colorWithWhite:0.3 alpha:0.2]];
-    [self.view addSubview:frontcamera];
+        UIButton *frontcamera =nil;
+        if (self.customizeDelegate) {
+            if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeFrontCameraButton)]) {
+                frontcamera = [self.customizeDelegate ImagePickerCusomizeFrontCameraButton];
+            }
+        }
+        if (!frontcamera) {
+            frontcamera=[[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)-50, 5, 47, 25)];
+            [frontcamera setImage:[UIImage imageNamed:@"PKImageBundle.bundle/front-camera"] forState:UIControlStateNormal];
+            [frontcamera setBackgroundColor:[UIColor colorWithWhite:0.3 alpha:0.2]];
+        }
+        [frontcamera addTarget:self action:@selector(showFrontCamera:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:frontcamera];
     }
     
-    UIButton *album = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)-35, CGRectGetHeight(self.view.frame)-40, 27, 27)];
-    [album setImage:[UIImage imageNamed:@"PKImageBundle.bundle/library"] forState:UIControlStateNormal];
+    
+    
+    
+    UIButton *album =nil;
+    if (self.customizeDelegate) {
+        if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeAlbumButton)]) {
+            album = [self.customizeDelegate ImagePickerCusomizeAlbumButton];
+        }
+    }
+    if (!album) {
+        album = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)-35, CGRectGetHeight(self.view.frame)-40, 27, 27)];
+        [album setImage:[UIImage imageNamed:@"PKImageBundle.bundle/library"] forState:UIControlStateNormal];
+    }
     [album addTarget:self action:@selector(showalbum:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:album];
+
     
-    UIButton *cancel = [[UIButton alloc]initWithFrame:CGRectMake(5, CGRectGetHeight(self.view.frame)-40, 32, 32)];
-    [cancel setImage:[UIImage imageNamed:@"PKImageBundle.bundle/cancel"] forState:UIControlStateNormal];
+    
+    
+    
+    UIButton *cancel = nil;
+    if (self.customizeDelegate) {
+        if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeCancelButton)]) {
+            cancel = [self.customizeDelegate ImagePickerCusomizeCancelButton];
+        }
+    }
+    if (!cancel) {
+        cancel = [[UIButton alloc]initWithFrame:CGRectMake(5, CGRectGetHeight(self.view.frame)-40, 32, 32)];
+        [cancel setImage:[UIImage imageNamed:@"PKImageBundle.bundle/cancel"] forState:UIControlStateNormal];
+    }
     [cancel addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cancel];
     
@@ -138,13 +189,30 @@
     UIView *overlayView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame)-60, CGRectGetWidth(self.view.frame), 60)];
     [overlayView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.9]];
     [self.imageSelectedView addSubview:overlayView];
-    UIButton *selectPhotoButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(overlayView.frame)-40, 20, 32, 32)];
-    [selectPhotoButton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/selected"] forState:UIControlStateNormal];
+    
+    UIButton *selectPhotoButton = nil;
+    if (self.customizeDelegate) {
+        if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeSelectPhotoButton)]) {
+            selectPhotoButton = [self.customizeDelegate ImagePickerCusomizeSelectPhotoButton];
+        }
+    }
+    if (!selectPhotoButton) {
+        selectPhotoButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetWidth(overlayView.frame)-40, 20, 32, 32)];
+        [selectPhotoButton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/selected"] forState:UIControlStateNormal];
+    }
     [selectPhotoButton addTarget:self action:@selector(photoSelected:) forControlEvents:UIControlEventTouchUpInside];
     [overlayView addSubview:selectPhotoButton];
     
-    UIButton *cancelSelectPhotoButton = [[UIButton alloc]initWithFrame:CGRectMake(5, 20, 32, 32)];
-    [cancelSelectPhotoButton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/cancel"] forState:UIControlStateNormal];
+    UIButton *cancelSelectPhotoButton = nil;
+    if (self.customizeDelegate) {
+        if ([self.customizeDelegate respondsToSelector:@selector(ImagePickerCusomizeCancelSelectPhotoButton)]) {
+            cancelSelectPhotoButton = [self.customizeDelegate ImagePickerCusomizeCancelSelectPhotoButton];
+        }
+    }
+    if (!cancelSelectPhotoButton) {
+        cancelSelectPhotoButton = [[UIButton alloc]initWithFrame:CGRectMake(5, 20, 32, 32)];
+        [cancelSelectPhotoButton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/cancel"] forState:UIControlStateNormal];
+    }
     [cancelSelectPhotoButton addTarget:self action:@selector(cancelSelectedPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [overlayView addSubview:cancelSelectPhotoButton];
 }
