@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface PKImagePickerViewController ()
-
+@property(nonatomic,assign) BOOL isViewDidLoad;
 @property(nonatomic,strong) AVCaptureSession *captureSession;
 @property(nonatomic,strong) AVCaptureStillImageOutput *stillImageOutput;
 @property(nonatomic,strong) AVCaptureDevice *captureDevice;
@@ -20,7 +20,7 @@
 @property(nonatomic,strong)UIImagePickerController *picker;
 @property(nonatomic,strong) UIView *imageSelectedView;
 @property(nonatomic,strong) UIImage *selectedImage;
-
+@property (nonatomic, strong) CAShapeLayer* overlayLayer;
 @end
 
 @implementation PKImagePickerViewController
@@ -30,6 +30,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.displayOverlay = NO;
+        self.isViewDidLoad = NO;
     }
     return self;
 }
@@ -52,6 +54,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.isViewDidLoad = YES;
     // Do any additional setup after loading the view.
     self.captureSession = [[AVCaptureSession alloc]init];
     self.captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
@@ -89,9 +92,9 @@
         _captureVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
         }
         
+        if (self.displayOverlay == YES && self.delegate && [self.delegate respondsToSelector:@selector(ImagePickerOverlayForCameraWithRect:)]) {
+        [self.delegate ImagePickerOverlayForCameraWithRect:self.view.bounds];
         
-    if (self.delegate && [self.delegate respondsToSelector:@selector(ImagePickerOverlayForCamera:)]) {
-        [self.delegate ImagePickerOverlayForCamera:self.view];
     }
 
     
@@ -144,6 +147,23 @@
     [cancelSelectPhotoButton setImage:[UIImage imageNamed:@"PKImageBundle.bundle/cancel"] forState:UIControlStateNormal];
     [cancelSelectPhotoButton addTarget:self action:@selector(cancelSelectedPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [overlayView addSubview:cancelSelectPhotoButton];
+}
+
+-(void)setDisplayOverlay:(BOOL)value
+{
+    _displayOverlay = value;
+    if (_displayOverlay == YES && self.isViewDidLoad == YES) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ImagePickerOverlayForCameraWithRect:)]) {
+           self.overlayLayer = [self.delegate ImagePickerOverlayForCameraWithRect:self.view.bounds];
+            [self.view.layer addSublayer:self.overlayLayer];
+        }
+    }
+    else
+    {
+        if (self.overlayLayer) {
+            [self.overlayLayer removeFromSuperlayer];
+        }
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated

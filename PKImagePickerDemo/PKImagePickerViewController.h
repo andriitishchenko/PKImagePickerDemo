@@ -8,16 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol PKImagePickerViewControllerDelegate;
+
+@interface PKImagePickerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+@property(nonatomic,strong) id<PKImagePickerViewControllerDelegate> delegate;
+@property(nonatomic,assign) BOOL displayOverlay;
+@end
+
 @protocol PKImagePickerViewControllerDelegate <NSObject>
 
 -(void)ImagePickerImageSelected:(UIImage*)img;
 -(void)ImagePickerImageSelectionCancelled;
 @optional
--(void)ImagePickerOverlayForCamera:(UIView*)view;
-@end
-
-@interface PKImagePickerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
-
-@property(nonatomic,strong) id<PKImagePickerViewControllerDelegate> delegate;
-
+-(CAShapeLayer*)ImagePickerOverlayForCameraWithRect:(CGRect)rect;
 @end
