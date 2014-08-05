@@ -218,6 +218,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "pavan krishnamurthy";
 				TargetAttributes = {
+					89133315196B7A67001C7DAD = {
+						DevelopmentTeam = BE4464H94U;
+					};
 					89133339196B7A67001C7DAD = {
 						TestTargetID = 89133315196B7A67001C7DAD;
 					};
@@ -347,6 +350,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -386,6 +390,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -408,6 +413,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PKImagePickerDemo/PKImagePickerDemo-Prefix.pch";
 				INFOPLIST_FILE = "PKImagePickerDemo/PKImagePickerDemo-Info.plist";
@@ -421,6 +427,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PKImagePickerDemo/PKImagePickerDemo-Prefix.pch";
 				INFOPLIST_FILE = "PKImagePickerDemo/PKImagePickerDemo-Info.plist";
