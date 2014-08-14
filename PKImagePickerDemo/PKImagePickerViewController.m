@@ -93,9 +93,9 @@
         }
         
         if (self.displayOverlay == YES && self.delegate && [self.delegate respondsToSelector:@selector(ImagePickerOverlayForCameraWithRect:)]) {
-        [self.delegate ImagePickerOverlayForCameraWithRect:self.view.bounds];
-        
-    }
+            self.overlayLayer = [self.delegate ImagePickerOverlayForCameraWithRect:self.view.bounds];
+            [self updateOverlayLayer];
+        }
         
         UIButton *camerabutton=nil;
         if (self.customizeDelegate) {
@@ -217,13 +217,21 @@
     [overlayView addSubview:cancelSelectPhotoButton];
 }
 
+-(void)updateOverlayLayer
+{
+    if (self.overlayLayer) {
+        [self.view.layer insertSublayer:self.overlayLayer atIndex:1];
+    }
+}
+
 -(void)setDisplayOverlay:(BOOL)value
 {
     _displayOverlay = value;
     if (_displayOverlay == YES && self.isViewDidLoad == YES) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(ImagePickerOverlayForCameraWithRect:)]) {
            self.overlayLayer = [self.delegate ImagePickerOverlayForCameraWithRect:self.view.bounds];
-            [self.view.layer addSublayer:self.overlayLayer];
+            [self updateOverlayLayer];
+            
         }
     }
     else
