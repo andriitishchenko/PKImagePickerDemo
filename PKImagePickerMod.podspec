@@ -15,11 +15,11 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "PKImagePicker"
+  s.name         = "PKImagePickerMod"
   s.version      = "0.0.2"
-  s.summary      = "Replacement for UIImagePickerController"
+  s.summary      = "Mod for PKImagePicker"
 
-  s.description  = "Replacement for UIImagePickerController which provides album and camera switcher integrated in the controller, so that you dont have to write a seperate actionsheet for it"
+  s.description  = "Mod for PKImagePicker"
 
   s.homepage     = "https://github.com/pavankris/PKImagePickerDemo/wiki"
   s.screenshots  = "https://raw.githubusercontent.com/pavankris/PKImagePickerDemo/master/ImagePickerScreenShot.png"
